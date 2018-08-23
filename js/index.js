@@ -10,63 +10,115 @@ var states =[{Zindex:1,width:120,height:150,top:69,left:134,opacity:0.2},
 ]
 var count=0;
 var lis = $('#box li');
-
+var star
+function moew(){
+    lis.each(function(index,ele){
+        var state = states[index];
+        // $(ele).css({'z-index':state.Zindex,'width':state.width,'height':state.height,'top':state.top,'left':state.left,'opacity':state.opacity})
+        $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
+    })
+}
 lis.each(function(index,ele){
     var state = states[index];
     // $(ele).css({'z-index':state.Zindex,'width':state.width,'height':state.height,'top':state.top,'left':state.left,'opacity':state.opacity})
     $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
 })
-// 将状态和位置赋给li
-$('.prev').click(function(){    
-    console.clear()
-    count++;
-    if(count>=states.length){
-        count=0
-    }else{
-        count=count
-    }
-    
-lis.each(function(index,ele){
-    var num = index+count;
-    if(num>states.length-1){
-        num=num-states.length
-    }else{
-        num=num
-    }
-    console.log(num);
-    
-    var state = states[num];
-    // $(ele).css({'z-index':state.Zindex,'width':state.width,'height':state.height,'top':state.top,'left':state.left,'opacity':state.opacity})
-    $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
-    })
-})
 
+function next(){
+    states.unshift(states.pop())
+    moew()
+}
+
+// 下一张
 $('.next').click(function(){
-    count--;
-   count=count<=-1?states.length-1:count;
-   lis.each(function(index,ele){
-       var num = index+count;
-       num=num>states.length-1?num-states.length:num;
-
-       var state = states[num];
-        $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
-   })
+    // 原理 ：把数组中的最后一个元素移动到数组的第一个
+   next()
 })
 
-setInterval(function(){
-    console.clear()
+// 上一张
+$('.prev').click(function(){
+    // 把数组的第一个元素移动到最后一位
+    states.push(states.shift())
+    moew()
+})
 
-    count--;
-    count=count<=-1?states.length-1:count;
-    lis.each(function(index,ele){
-        var num = index+count;
-        num=num>states.length-1?num-states.length:num;
-        console.log(num);
+
+// 自动轮播
+var time =null;
+function autoPlay(){
+    time=setInterval(function(){
+        next()
+    },1000)
+}
+
+
+autoPlay()
+// 停止轮播
+$('#box section').add('#box li').hover(function(){
+    clearInterval(time)
+},function(){
+    autoPlay()
+})
+
+
+
+
+
+// 将状态和位置赋给li
+// $('.prev').click(function(){   
+//     clearInterval(star) 
+//     console.clear()
+//     count++;
+//     if(count>=states.length){
+//         count=0
+//     }else{
+//         count=count
+//     }
+    
+// lis.each(function(index,ele){
+//     var num = index+count;
+//     if(num>states.length-1){
+//         num=num-states.length
+//     }else{
+//         num=num
+//     }
+//     console.log(num);
+    
+//     var state = states[num];
+//     // $(ele).css({'z-index':state.Zindex,'width':state.width,'height':state.height,'top':state.top,'left':state.left,'opacity':state.opacity})
+//     $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
+//     })
+//    star = setInterval(move,2000)
+// })
+
+// $('.next').click(function(){
+//     count--;
+//    count=count<=-1?states.length-1:count;
+//    lis.each(function(index,ele){
+//        var num = index+count;
+//        num=num>states.length-1?num-states.length:num;
+
+//        var state = states[num];
+//         $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
+//    })
+// })
+
+// function move(){
+//      console.clear()
+
+//     count--;
+//     count=count<=-1?states.length-1:count;
+//     lis.each(function(index,ele){
+//         var num = index+count;
+//         num=num>states.length-1?num-states.length:num;
+//         console.log(num);
         
-        var state = states[num];
-         $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
-    })
-},3000)
+//         var state = states[num];
+//          $(ele).css({'z-index':state.Zindex}).finish().animate(state,1000)
+//     })
+// }
+
+// star =  setInterval(move,3000)
 
 
 
