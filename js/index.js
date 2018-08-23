@@ -1,5 +1,6 @@
-
-// 规定好每张图片属于的位置和状态
+// 首先可以将整体封装成一个匿名自运行函数，
+(function(){
+    // 规定好每张图片属于的位置和状态
 var states =[{Zindex:1,width:120,height:150,top:69,left:134,opacity:0.2},
             {Zindex:2,width:130,height:170,top:59,left:0,opacity:0.5},
             {Zindex:3,width:170,height:218,top:24,left:110,opacity:0.7},
@@ -59,6 +60,16 @@ $('#box section').add('#box li').hover(function(){
 },function(){
     autoPlay()
 })
+
+})()
+
+// 变量的作用域问题：
+// 1.全局域[window] 2.函数域[function]
+// 1.全局域：从页面被打开之后到页面关闭之前始终都是存在的
+// 2.函数域：存在函数被调用的一瞬间(也不一定，考虑闭包的存在)
+// 闭包作用：可以保留函数的作用域(所以move可以使用自运行函数中的states)  闭包产生的必要条件：函数里面套函数(内层函数要使用外层函数的变量)
+// 全局变量会产生闭包？ 不会，因为全局变量存在全局域 
+
 
 
 
